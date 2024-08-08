@@ -5,7 +5,7 @@ const readline = require('readline-sync');
 // slugs:
 // GET	/posts
 
-// Please using PROMISE and thenable to solve this
+// Please using PROMISE and ASYNC/AWAIT to solve this
 // Allow user to input an userid and postId, print out that post content
 // Print all posts for that user
 
@@ -16,18 +16,16 @@ const postId = readline.question('Enter the post ID: ');
 printTargetPost(userId, postId);
 printAllPosts(userId);
 
-
-function printAllPosts(userId){
-    filterPostsByUserId(userId).then(function(posts){
-        console.log(posts);
-    })
+async function printAllPosts(userId){
+    const userPosts = await filterPostsByUserId(userId);
+    console.log(userPosts);
 }
 
 function printTargetPost(userId, postId){
-    filterPostsByUserId(userId).then(function(posts){
-        const targetPost = posts.filter(function(post){
-            return (post.id == postId);
-        });
+    filterPostsByUserId(userId).then(function(userPosts){
+        const targetPost = userPosts.filter(function(post){
+            return post.id == postId;
+        })[0];
         if(targetPost){
             console.log(targetPost);
         }else{
@@ -36,23 +34,16 @@ function printTargetPost(userId, postId){
     })
 }
 
+
+async function filterPostsByUserId(userId){
+    const posts = await fetchPosts(url);
+    return posts.filter(function(post){
+        return post.userId == userId;
+    })
+}
+
 function fetchPosts(url){
     return fetch(url).then(function(response){
         return response.json();
     })
 }
-function filterPostsByUserId(userId){
-    return fetchPosts(url).then(function(posts){
-        const filteredPosts = [];
-        for(let i = 0; i < posts.length; i++){
-            if(posts[i].userId == userId){
-                filteredPosts.push(posts[i]);          
-            }   
-        }
-        return filteredPosts;
-        
-    })
-}
-
-
-
