@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Annimal_1 = require("./Annimal");
+var AnnimalManagement_1 = require("./AnnimalManagement");
+var animalManagement = new AnnimalManagement_1.default();
+var horse = new Annimal_1.Annimal("Horse", Math.floor(Math.random() * 75) + 1);
+var tiger = new Annimal_1.Annimal("Tiger", Math.floor(Math.random() * 100) + 1);
+var dog = new Annimal_1.Annimal("Dog", Math.floor(Math.random() * 60) + 1);
+console.log("Horse speed: " + horse.getSpeed());
+console.log("Tiger speed: " + tiger.getSpeed());
+console.log("Dog speed: " + dog.getSpeed());
+var maxSpeed = Math.max(horse.getSpeed(), tiger.getSpeed(), dog.getSpeed());
+var fastetAnnimal = animalManagement.getFastestAnnimal([horse, tiger, dog]);
+console.log(fastetAnnimal.getName());
+console.log("Winner is: " + fastetAnnimal.getName() + " with speed: " + fastetAnnimal.getSpeed());
